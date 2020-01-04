@@ -2,8 +2,16 @@ const router = require('express').Router();
 const Contacts = require('../models/contacts');
 
 // test
-router.get('/', (req, res) => {
-    res.send('welcome');
+router.post('/', (req, res) => {
+    console.log("hi android");
+    console.log(req.body);
+
+    Contacts.findAll()
+    .then((data) => {
+      if (!data.length) return res.status(404).send({ err: 'data not found' });
+      res.send(`find successfully: ${data}`);
+    })
+    .catch(err => res.status(500).send(err));
 });
 
 // Create new todo document
