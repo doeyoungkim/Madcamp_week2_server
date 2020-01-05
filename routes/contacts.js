@@ -4,7 +4,9 @@ const Contacts = require('../models/contacts');
 // test
 router.post('/', (req, res) => {
     console.log("hi android");
-    console.log(req.body);
+    req.body.values.forEach(element => {
+        console.log(element);
+    });
 
     Contacts.findAll()
     .then((data) => {
