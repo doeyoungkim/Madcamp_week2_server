@@ -1,24 +1,26 @@
 const router = require('express').Router();
+const fs = require('fs');
+const multer = require('multer');
+const crypto = require('crypto');
 
 const Images = require('../models/images');
   
-router.post('/', (req, res) => {
-    console.log("hi android");
-    Images.deleteMany({})
-    .then((data)=>{
-        console.log(data)
-        Images.find({})
-        .then((data) => {
-        if (!data.length) {
-            console.log("data not found")
-            return res.status(404).send({ err: 'data not found' });
-        }
-        console.log(data.length);
-        console.log(`successful : ${data}`)
-        res.send(`find successfully: ${data}`);
+const storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: function(req, file, cb){
+        return crypto.pseudoRandomBytes(16, function(err, raw){
+            return err ? cb(err) : cb(null, "" + (raw.toString('hex')) + (path.extname(file.originalname)));
         })
-    })
-    .catch(err => res.status(500).send(err));
+    }
+})
+router.get('/', (req, res) => {
+    file = req.params.upload;
+    console.log(file);
+    var img = fs.readFileSync(__dirname + "../uploads" + file);
+    res.writeHead(200, {'Content-Type': 'image/png'});
+    res.end(img, 'binary');
+    console.log("hi android")
+    .catch(err => res.status(500).send(err))
 })
 
 module.exports = router;

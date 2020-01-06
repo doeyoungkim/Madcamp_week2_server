@@ -1,48 +1,51 @@
 const router = require('express').Router();
 const Contacts = require('../models/contacts');
 
-router.post('/', (req, res) => {
-    console.log("hi android");
-    Contacts.deleteMany({})
-      .then(promise =>{
-        if(!promise.ok)
-          return;
-        console.log("deleted :", promise.deletedCount);
-        return initData(req.body.values); 
-      })
-      .then((data)=>{
-        console.log(data)
-        Contacts.find({})
-        .then((data) => {
-          if (!data.length) {
-            console.log("data not found")
-            return res.status(404).send({ err: 'data not found' });
-          }
-          console.log(data.length);
-          console.log(`successful : ${data}`)
-          res.send(`find successfully: ${data}`);
-        })
-      })
-    .catch(err => res.status(500).send(err));
-})
+// 안드로이드에서 새로운 연락처 추가하는 기능 추가될때 필요한 코드들
+// router.post('/', (req, res) => {
+//     console.log("hi android");
+//     Contacts.deleteMany({})
+//       .then(promise =>{
+//         if(!promise.ok)
+//           return;
+//         console.log("deleted :", promise.deletedCount);
+//         return initData(req.body.values); 
+//       })
+//       .then((data)=>{
+//         console.log(data)
+//         Contacts.find({})
+//         .then((data) => {
+//           if (!data.length) {
+//             console.log("data not found")
+//             return res.status(404).send({ err: 'data not found' });
+//           }
+//           console.log(data.length);
+//           console.log(`successful : ${data}`)
+//           res.send(`find successfully: ${data}`);
+//         })
+//       })
+//     .catch(err => res.status(500).send(err));
+// })
   
 
 // Create new todo document
 router.get('/', (req, res) => {
-    res.send("post succeed");
+    Contacts.find({})
+      .then(data => res.json(data))
+      .catch(err => res.status(500).send(err));
     // res.json(req.body);
     // Contacts.create(req.body)
     //   .then(data => res.send(data))
     //   .catch(err => res.status(500).send(err));
   });
 
-router.get('/:id', (req, res) => {
-  res.send("post succeed");
-  // res.json(req.body);
-  // Contacts.create(req.body)
-  //   .then(data => res.send(data))
-  //   .catch(err => res.status(500).send(err));
-});
+// router.get('/:name', (req, res) => {
+//   Contacts.find({"name": req.params.name})
+//   // res.json(req.body);
+//   // Contacts.create(req.body)
+//   //   .then(data => res.send(data))
+//   //   .catch(err => res.status(500).send(err));
+// });
   
 
 // // Find One by todoid
