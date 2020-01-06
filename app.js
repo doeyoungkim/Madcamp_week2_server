@@ -6,13 +6,14 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = process.env.PORT || 4500;
+const port = process.env.PORT;
 
 // Static File Service
 app.use(express.static('public'));
 // Body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 
 // Node.js의 native Promise 사용
 mongoose.Promise = global.Promise;
@@ -22,7 +23,8 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Successfully connected to mongodb'))
   .catch(e => console.error(e));
 
-// ROUTERS
-app.use('/contacts', require('./routes/contacts'));
+// URL routing
+app.use('/', require('./routes/base.js'));
 
+console.log(port)
 app.listen(port, () => console.log(`Server listening on port ${port}`));

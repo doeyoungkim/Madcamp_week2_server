@@ -1,29 +1,48 @@
 const router = require('express').Router();
 const Contacts = require('../models/contacts');
 
-// test
 router.post('/', (req, res) => {
     console.log("hi android");
-    req.body.values.forEach(element => {
-        console.log(element);
-    });
-
-    Contacts.findAll()
-    .then((data) => {
-      if (!data.length) return res.status(404).send({ err: 'data not found' });
-      res.send(`find successfully: ${data}`);
-    })
+    Contacts.deleteMany({})
+      .then(promise =>{
+        if(!promise.ok)
+          return;
+        console.log("deleted :", promise.deletedCount);
+        return initData(req.body.values); 
+      })
+      .then((data)=>{
+        console.log(data)
+        Contacts.find({})
+        .then((data) => {
+          if (!data.length) {
+            console.log("data not found")
+            return res.status(404).send({ err: 'data not found' });
+          }
+          console.log(data.length);
+          console.log(`successful : ${data}`)
+          res.send(`find successfully: ${data}`);
+        })
+      })
     .catch(err => res.status(500).send(err));
-});
+})
+  
 
 // Create new todo document
-router.post('/contacts', (req, res) => {
+router.get('/', (req, res) => {
     res.send("post succeed");
     // res.json(req.body);
     // Contacts.create(req.body)
     //   .then(data => res.send(data))
     //   .catch(err => res.status(500).send(err));
   });
+
+router.get('/:id', (req, res) => {
+  res.send("post succeed");
+  // res.json(req.body);
+  // Contacts.create(req.body)
+  //   .then(data => res.send(data))
+  //   .catch(err => res.status(500).send(err));
+});
   
 
 // // Find One by todoid
