@@ -9,8 +9,8 @@ async function isSavedOk(){
     var saved_images = await Images.findAll()
     console.log(saved_contacts.length, saved_images.length)
         if(saved_contacts.length > 0 && saved_images.length > 0){
-            data = saved_contacts + saved_contacts
-            console.log(`successful!`);
+            data = saved_contacts + saved_images
+            console.log(`successful!`, data);
             return true;
             // res.send(`find successfully: ${data}`);
         }
