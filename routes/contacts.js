@@ -30,14 +30,21 @@ const Contacts = require('../models/contacts');
 
 // Create new todo document
 router.get('/', (req, res) => {
-    Contacts.find({})
-      .then(data => res.json(data))
-      .catch(err => res.status(500).send(err));
-    // res.json(req.body);
-    // Contacts.create(req.body)
-    //   .then(data => res.send(data))
-    //   .catch(err => res.status(500).send(err));
-  });
+  console.log("/contacts reached!");
+  Contacts.find({})
+    .then(data => {
+      console.log(data);
+      res.json(JSON.stringify(data));
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err)
+    });
+  // res.json(req.body);
+  // Contacts.create(req.body)
+  //   .then(data => res.send(data))
+  //   .catch(err => res.status(500).send(err));
+});
 
 // router.get('/:name', (req, res) => {
 //   Contacts.find({"name": req.params.name})

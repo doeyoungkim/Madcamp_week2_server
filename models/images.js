@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 
 // Define Schemes
 const imagesSchema = new mongoose.Schema({
-  image : {
-      data : Buffer,
-      fileFormat : String
-  }
+  imageID : { type: String, required: true }
 },
 {
   timestamps: true
